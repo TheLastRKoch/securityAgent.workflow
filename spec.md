@@ -1,15 +1,14 @@
 # Project Specification: Security Pipeline Prompt Manager (SPPM)
 
 <system_overview>
-The Security Pipeline Prompt Manager (SPPM) is a CLI-driven meta-agent tool designed to analyze, optimize, and synchronize system prompts for a 4-agent security vulnerability triage and remediation pipeline operating within **n8n AI Agent nodes** powered by **Gemini models**.
+The Security Pipeline Prompt Manager (SPPM) is a CLI-driven meta-agent tool designed to analyze, optimize, and synchronize system prompts for a 3-agent security vulnerability triage and remediation pipeline operating within **n8n AI Agent nodes** powered by **Gemini models**.
 </system_overview>
 
 <workspace_structure>
 ```text
 ├── prompts/
-│   ├── orchestrator.md   # System prompt for Lead Orchestrator
-│   ├── analyst.md        # System prompt for Security Analyst
 │   ├── scouter.md        # System prompt for Scouter (Deduplication)
+│   ├── analyst.md        # System prompt for Security Analyst
 │   └── reporter.md       # System prompt for Reporter (Remediation)
 ├── core_schema.json      # Schema definitions for vulnerability data
 └── spec.md               # Pipeline specification & optimization rules
@@ -28,12 +27,15 @@ Every item managed by the pipeline strictly conforms to the following 7-field sc
 </core_schema>
 
 <pipeline_architecture>
-1. **Single Point of I/O**: Only the **Lead Orchestrator** reads from and writes to the tracking source (Google Sheets). Sub-agents are completely isolated from Google Sheet tools.
-2. **Single-Item Processing Loop**: The Orchestrator iterates through items one-by-one, passing a single item payload to specialized sub-agents and immediately committing state updates back to the sheet after each sub-agent execution.
-3. **Decoupled Specialized Sub-Agents**:
-   * **Scouter**: Searches GitHub for existing open issues (`state:open`) matching the CVE/component to prevent duplicate issue creation.
-   * **Security Analyst**: Audits repository dependency manifests (`requirements.txt`, `package.json`, etc.) to classify items with status `New`.
-   * **Reporter**: Creates GitHub issues for items with status `Verified` and captures the issue URL.
+The pipeline follows a **linear chain** with no central orchestrator. Each agent receives the output of the previous agent as its input, enriches it, commits its findings directly to Google Sheets, and passes the result to the next agent.
+
+```
+Chat Trigger → Scouter → Analyst → Reporter
+```
+
+1. **Scouter**: First in the chain. Reads the vulnerability item from Google Sheets, searches GitHub for existing open issues (`state:open`) to detect duplicates, updates the sheet with its findings, and passes the enriched item to the Analyst.
+2. **Security Analyst**: Receives the Scouter output. Audits repository dependency manifests (`requirements.txt`, `package.json`, etc.) to classify `New` items as `Verified`, `False positive`, or `Unknown`. Updates the sheet with its findings and passes the result to the Reporter.
+3. **Reporter**: Last in the chain. Receives the Analyst output. Creates GitHub issues for items with `Status == "Verified"`, captures the issue URL, and updates the sheet with the final `Reported` status and `Work item` URL.
 </pipeline_architecture>
 
 <state_machine_rules>
@@ -49,18 +51,22 @@ stateDiagram-v2
 
 | Source Status | Agent Triggered | Allowed Target Status | Required Actions |
 | :--- | :--- | :--- | :--- |
-| `New` / Any | **Scouter** | `Reported` (if duplicate found) | Search GitHub `state:open`. If found, capture URL into `Work item`. |
-| `New` | **Security Analyst** | `Verified` \| `False positive` \| `Unknown` | Audit dependency manifests via GitHub tool. |
-| `Verified` | **Reporter** | `Reported` | Create GitHub Issue labeled `security`. Capture new URL into `Work item`. |
+| `New` / Any | **Scouter** | `Reported` (if duplicate found) | Search GitHub `state:open`. If found, capture URL into `Work item`. Update sheet. |
+| `New` | **Security Analyst** | `Verified` \| `False positive` \| `Unknown` | Audit dependency manifests via GitHub tool. Update sheet. |
+| `Verified` | **Reporter** | `Reported` | Create GitHub Issue labeled `security`. Capture new URL into `Work item`. Update sheet. |
 </state_machine_rules>
 
 <n8n_tool_bindings>
 | Agent Node | n8n Tool Name | Responsibility |
 | :--- | :--- | :--- |
-| **Orchestrator** | `Get row(s) in sheet in Google Sheets` | Ingest vulnerability dataset |
-| **Orchestrator** | `Update row in sheet in Google Sheets` | Commit updated `Status` & `Work item` per row |
+| **Scouter** | `Get row(s) in sheet in Google Sheets` | Ingest vulnerability item from sheet |
+| **Scouter** | `Update row in sheet in Google Sheets` | Commit deduplication findings to sheet |
 | **Scouter** | `Get issues of a repository in GitHub` | Query `state:open` issues in target repo |
+| **Security Analyst** | `Get row(s) in sheet in Google Sheets` | Read current item state |
+| **Security Analyst** | `Update row in sheet in Google Sheets` | Commit audit classification to sheet |
 | **Security Analyst** | `Get a file in GitHub` | Inspect package manifests & configuration files |
+| **Reporter** | `Get row(s) in sheet in Google Sheets` | Read verified items |
+| **Reporter** | `Update row in sheet in Google Sheets` | Commit `Reported` status & issue URL to sheet |
 | **Reporter** | `Create an issue in GitHub` | Create security tracking issue in repo |
 | **Reporter** | `Get a repository in GitHub` | Validate target repository existence |
 </n8n_tool_bindings>
@@ -73,8 +79,8 @@ stateDiagram-v2
 </cli_commands>
 
 <integration_guardrails>
-* **1:1 Pairing Rule**: Every sub-agent result must be immediately written to Google Sheets by the Orchestrator before starting the next item.
+* **Linear Chain Rule**: Each agent passes its enriched output directly to the next agent in the chain. There is no central orchestrator mediating data flow.
+* **Distributed Sheet Access**: Each agent is responsible for its own Google Sheets read/write operations at the end of its step, before passing control to the next agent.
 * **State Locking**: Reporter execution MUST be locked strictly to items where `Status == "Verified"`.
-* **Zero Direct Sheet Access in Sub-Agents**: Sub-agents MUST NOT contain instructions or tool bindings for Google Sheet read/write operations.
 * **Prompt Versioning**: Every time any file in the `prompts/` folder is modified, its version MUST be incremented. The version is represented directly under the first `#` header in each file starting with the letter `v` (e.g., `v0.0.2`).
 </integration_guardrails>
