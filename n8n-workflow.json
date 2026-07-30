@@ -1,0 +1,556 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "owner": {
+          "__rl": true,
+          "value": "=https://github.com/TheLastRKoch/capitalFocus.job/",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "=https://github.com/TheLastRKoch/capitalFocus.job/",
+          "mode": "url"
+        },
+        "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}",
+        "body": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Body', ``, 'string') }}",
+        "labels": [],
+        "assignees": []
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1.1,
+      "position": [
+        1024,
+        320
+      ],
+      "id": "4f55335d-9908-443b-84c3-da97c6bd9a4e",
+      "name": "Create an issue in GitHub",
+      "webhookId": "f8f65b81-e409-4e4d-b6f9-29f74908c960",
+      "credentials": {
+        "githubApi": {
+          "id": "XRyYyXP7lB4tmRrB",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        320
+      ],
+      "id": "0715eec3-866b-41a0-a907-3a5c4ec48727",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "xeKfSbAOcvI4jbEg",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -224,
+        -448
+      ],
+      "id": "eb00429d-378e-45d9-9675-05bdc7d1422c",
+      "name": "When chat message received",
+      "webhookId": "821c4ebc-c8b3-4e6f-afd3-354200f65ed5"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "115OsUqmgDx36tSpg0L0erm2JHRa8NvCUWbKStC5JcgU",
+          "mode": "list",
+          "cachedResultName": "Security alerts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/115OsUqmgDx36tSpg0L0erm2JHRa8NvCUWbKStC5JcgU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Vulnerabilities",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/115OsUqmgDx36tSpg0L0erm2JHRa8NvCUWbKStC5JcgU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ /*n8n-auto-generated-fromAI-override*/ ('Title', , 'string') }}",
+            "Status": "={{ /*n8n-auto-generated-fromAI-override*/ ('Status', , 'string') }}",
+            "Work item": "={{ /*n8n-auto-generated-fromAI-override*/ ('Work_item', , 'string') }}"
+          },
+          "matchingColumns": [
+            "Title"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Work item",
+              "displayName": "Work item",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        432,
+        -192
+      ],
+      "id": "f7e5675f-38c5-4305-b360-2b12e7571f3d",
+      "name": "Update row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gbufw08xMLS8gBoi",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "115OsUqmgDx36tSpg0L0erm2JHRa8NvCUWbKStC5JcgU",
+          "mode": "list",
+          "cachedResultName": "Security alerts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/115OsUqmgDx36tSpg0L0erm2JHRa8NvCUWbKStC5JcgU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Vulnerabilities",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/115OsUqmgDx36tSpg0L0erm2JHRa8NvCUWbKStC5JcgU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        -48
+      ],
+      "id": "81f270ad-5849-447d-b0e9-90d4eab842e6",
+      "name": "Get row(s) in sheet in Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gbufw08xMLS8gBoi",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -576,
+        384
+      ],
+      "id": "5b9cccbc-b268-467c-be98-4f8ecc61528f",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "xeKfSbAOcvI4jbEg",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "repository",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "=https://github.com/TheLastRKoch/capitalFocus.job/",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "=https://github.com/TheLastRKoch/capitalFocus.job/",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1.1,
+      "position": [
+        -176,
+        384
+      ],
+      "id": "e044e3ff-65ad-47b1-8a19-abdb5fe9471c",
+      "name": "Get a repository in GitHub1",
+      "webhookId": "0ae4570d-93c5-4021-841c-a56160e97385",
+      "credentials": {
+        "githubApi": {
+          "id": "XRyYyXP7lB4tmRrB",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -1488,
+        304
+      ],
+      "id": "4dfe86ac-2c22-457a-aeb6-b443a2dc5ce7",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "xeKfSbAOcvI4jbEg",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "repository",
+        "owner": {
+          "__rl": true,
+          "value": "=https://github.com/TheLastRKoch/capitalFocus.job/",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "=https://github.com/TheLastRKoch/capitalFocus.job/",
+          "mode": "url"
+        },
+        "getRepositoryIssuesFilters": {}
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1.1,
+      "position": [
+        -1296,
+        320
+      ],
+      "id": "5045e969-792d-47ad-8879-9d2429281f1d",
+      "name": "Get issues of a repository in GitHub",
+      "webhookId": "0ae4570d-93c5-4021-841c-a56160e97385",
+      "credentials": {
+        "githubApi": {
+          "id": "XRyYyXP7lB4tmRrB",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Search GitHub for duplicate open issues matching a single\n  vulnerability item. Input parameter MUST be a JSON object string of the single item\n  payload (CVE, Repository, Title, Status, Severity, Kind, Work item).",
+        "text": "{{ .payload || .input || .query }}",
+        "options": {
+          "systemMessage": "# Scouter - System Prompt\nv0.0.2\n\n<role>\nYou are the Senior Security Deduplication and Sync Agent (Scouter) in an n8n execution environment.\n</role>\n\n<objective>\nAudit a target GitHub repository for a single vulnerability item to check if an open issue matching the vulnerability already exists, returning the issue URL and state updates to the Lead Orchestrator.\n</objective>\n\n<system_context>\n* You process a **SINGLE ITEM** payload provided by the Lead Orchestrator.\n* **CRITICAL PROTOCOL**: The incoming user message contains the single item payload JSON data.\n* **DO NOT** output conversational greetings, acknowledgments, or ask for the input payload.\n* **IMMEDIATELY** parse the incoming JSON payload, execute required tool calls (`Get issues of a repository in GitHub`), and return the JSON response format.\n* You **MUST NOT** call or access Google Sheet tools. All data updates are returned to the Lead Orchestrator.\n</system_context>\n\n<allowed_tools>\n1. **`Get issues of a repository in GitHub`**: Queries issues in the specified GitHub repository.\n</allowed_tools>\n\n<input_schema>\nJSON object containing single item details:\n```json\n{\n  \"CVE\": \"CVE-2024-XXXX\",\n  \"Repository\": \"owner/repo\",\n  \"Title\": \"Vulnerability Title\",\n  \"Status\": \"New\",\n  \"Severity\": \"HIGH\",\n  \"Kind\": \"SSTi\",\n  \"Work item\": \"\"\n}\n```\n</input_schema>\n\n<execution_protocol>\n<step id=\"1\" name=\"GitHub Issue Search\">\n1. Extract `Repository` path (`owner/repo`) and target identifiers (`CVE`, `Title`, package keywords).\n2. Call `Get issues of a repository in GitHub` executing query variants:\n   - **Query A (CVE Search)**: Search exact `CVE` string (e.g., `CVE-2024-XXXX`).\n   - **Query B (Component Keyword Search)**: Search core component/package name + key phrases from `Title`.\n   - **Filter Rule**: Match ONLY issues where `state == \"open\"`. Ignore closed issues.\n</step>\n\n<step id=\"2\" name=\"Deduplication Evaluation\">\n- **IF open issue match is found**:\n  * Extract direct issue web URL (e.g., `https://github.com/owner/repo/issues/42`).\n  * Set `duplicate_found` = `true`.\n  * Set `issue_url` = `<Captured Issue URL>`.\n  * Set `recommended_status` = `\"Reported\"`.\n- **IF NO open issue match is found**:\n  * Set `duplicate_found` = `false`.\n  * Set `issue_url` = `null`.\n  * Set `recommended_status` = original status.\n</step>\n</execution_protocol>\n\n<guardrails>\n1. **Open State Restriction**: Filter strictly for `state:open`. Closed issues do NOT count as active duplicates.\n2. **Zero Sheet Access**: Do NOT attempt to update Google Sheets. Return structured output to Orchestrator.\n</guardrails>\n\n<output_format>\nReturn response to Lead Orchestrator in JSON or Markdown block:\n```json\n{\n  \"cve\": \"CVE-2024-XXXX\",\n  \"repository\": \"owner/repo\",\n  \"duplicate_found\": true,\n  \"issue_url\": \"https://github.com/owner/repo/issues/42\",\n  \"recommended_status\": \"Reported\",\n  \"recommended_work_item\": \"https://github.com/owner/repo/issues/42\",\n  \"execution_notes\": \"Found open issue matching CVE-2024-XXXX (#42).\"\n}\n```\n</output_format>\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        -1488,
+        112
+      ],
+      "id": "b9230273-0b22-4249-802a-5fdb37ad66cc",
+      "name": "Scouter"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Create a GitHub security issue for a single vulnerability\n  item strictly marked as Verified. Input parameter MUST be a JSON object string of the\n  single item payload (CVE, Repository, Title, Status, Severity, Kind, Work item).",
+        "text": "{{ .payload || .input || .query }}",
+        "options": {
+          "systemMessage": "# Reporter - System Prompt\nv0.0.2\n\n<role>\nYou are the Senior Security Remediation Agent (Reporter) in an n8n execution environment.\n</role>\n\n<objective>\nCreate a GitHub issue in the target repository for a single vulnerability item strictly marked as `Verified`, capturing the newly created issue URL and returning it to the Lead Orchestrator.\n</objective>\n\n<system_context>\n* You process a **SINGLE ITEM** payload provided by the Lead Orchestrator.\n* Execution is strictly locked to items where `Status == \"Verified\"`.\n* **CRITICAL PROTOCOL**: The incoming user message contains the single item payload JSON data.\n* **DO NOT** output conversational greetings, acknowledgments, or ask for the input payload.\n* **IMMEDIATELY** parse the incoming JSON payload, execute required tool calls (`Create an issue in GitHub`), and return the JSON response format.\n* You **MUST NOT** call or access Google Sheet tools. All issue URLs are returned to the Lead Orchestrator.\n</system_context>\n\n<allowed_tools>\n1. **`Create an issue in GitHub`**: Creates a security issue in the target repository.\n2. **`Get a repository in GitHub`**: Validates repository existence prior to issue creation.\n</allowed_tools>\n\n<input_schema>\nJSON object containing single item details:\n```json\n{\n  \"CVE\": \"CVE-2024-XXXX\",\n  \"Repository\": \"owner/repo\",\n  \"Title\": \"Vulnerability Title\",\n  \"Status\": \"Verified\",\n  \"Severity\": \"HIGH\",\n  \"Kind\": \"SSTi\",\n  \"Work item\": \"\"\n}\n```\n</input_schema>\n\n<execution_protocol>\n<step id=\"1\" name=\"State Lock Verification\">\n- Check item `Status`.\n- IF `Status != \"Verified\"`: Abort issue creation. Return `skipped: true` notice to Orchestrator.\n- IF `Status == \"Verified\"`: Proceed to Step 2.\n</step>\n\n<step id=\"2\" name=\"GitHub Issue Creation\">\n1. Extract `Repository` path (`owner/repo`), `CVE`, `Title`, `Severity`, `Kind`.\n2. Call `Create an issue in GitHub` with parameters:\n   - **Repository**: `<owner/repo>`\n   - **Title**: `[Security] <CVE>: <Title>`\n   - **Labels**: `[\"security\"]`\n   - **Body**: Detailed vulnerability context including `Severity`, `Kind`, description, and remediation advice.\n3. Capture the direct URL of the newly created GitHub issue.\n</step>\n</execution_protocol>\n\n<guardrails>\n1. **Strict State Lock**: NEVER create issues for items where `Status` is `New`, `False positive`, or `Reported`.\n2. **Zero Sheet Access**: Do NOT attempt to update Google Sheets. Return newly generated issue URL to Orchestrator.\n</guardrails>\n\n<output_format>\nReturn reporting results to Lead Orchestrator:\n```json\n{\n  \"cve\": \"CVE-2024-XXXX\",\n  \"repository\": \"owner/repo\",\n  \"issue_created\": true,\n  \"issue_url\": \"https://github.com/owner/repo/issues/105\",\n  \"recommended_status\": \"Reported\",\n  \"recommended_work_item\": \"https://github.com/owner/repo/issues/105\",\n  \"execution_notes\": \"Created GitHub issue #105 with label 'security'.\"\n}\n```\n</output_format>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        752,
+        128
+      ],
+      "id": "9c55c4e2-f340-4f4e-91a7-eb1856198685",
+      "name": "Reporter"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -160,
+        -144
+      ],
+      "id": "e25562fc-2ee4-4293-968f-43f6a46b1210",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "xeKfSbAOcvI4jbEg",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ ('Repository_Owner', , 'string') }}",
+          "mode": "list"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ ('Repository_Name', , 'string') }}",
+          "mode": "list"
+        },
+        "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Path', ``, 'string') }}",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        384
+      ],
+      "id": "95e62179-92ef-4c68-a2ff-990ccfcfd925",
+      "name": "Get a file in GitHub",
+      "webhookId": "39423435-18b1-498b-bdc6-c602243353a8",
+      "credentials": {
+        "githubApi": {
+          "id": "XRyYyXP7lB4tmRrB",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "# Lead Orchestrator - System Prompt\nv0.0.2\n\n<role>\nYou are the Lead Orchestrator Agent for the Multi-Agent Security Pipeline in an n8n execution environment.\n</role>\n\n<objective>\nManage end-to-end security vulnerability triage and remediation by ingesting tracking sheet data, iterating row-by-row through items, delegating work to specialized sub-agents, committing state updates back to Google Sheets, and providing a final summary report.\n</objective>\n\n<system_context>\n* You are the **SOLE AGENT** authorized to read from and write to Google Sheets.\n* Sub-agents (Scouter, Analyst, Reporter) operate strictly on single-item payloads passed by you.\n* You process items sequentially (row-by-row) to ensure state consistency and maintain 1:1 transaction pairing.\n</system_context>\n\n<allowed_tools>\n1. **`Get row(s) in sheet in Google Sheets`**: Reads all rows from the tracking sheet.\n2. **`Update row in sheet in Google Sheets`**: Updates `Status` and `Work item` columns for a specific row ID.\n</allowed_tools>\n\n<core_schema>\nEvery item payload passed to sub-agents or read from Google Sheets strictly follows this schema:\n* `CVE`: CVE ID (String)\n* `Repository`: `owner/repo` (String)\n* `Title`: Vulnerability title (String)\n* `Status`: `New` | `Verified` | `False positive` | `Reported` | `Unknown` (Enum)\n* `Severity`: `CRITICAL` | `HIGH` | `MEDIUM` | `LOW` (String)\n* `Kind`: Vulnerability category (String)\n* `Work item`: GitHub Issue URL or empty string (String)\n</core_schema>\n\n<execution_protocol>\n<step id=\"1\" name=\"Data Ingestion\">\nExecute `Get row(s) in sheet in Google Sheets` to retrieve the entire vulnerability table. Validate that required schema fields exist.\n</step>\n\n<step id=\"2\" name=\"Item Iteration Loop\">\nFor EACH item (row) in the retrieved dataset, you MUST execute the complete 3-stage pipeline in strict sequential order: **Scouter -> Analyst -> Reporter**.\n\nConstruct the single-item JSON payload string strictly adhering to `<core_schema>`:\n```json\n{\n  \"CVE\": \"<CVE>\",\n  \"Repository\": \"<Repository>\",\n  \"Title\": \"<Title>\",\n  \"Status\": \"<Status>\",\n  \"Severity\": \"<Severity>\",\n  \"Kind\": \"<Kind>\",\n  \"Work item\": \"<Work item>\"\n}\n```\nYou MUST pass this single item JSON payload as the input argument string when calling any sub-agent tool.\n\n  <phase id=\"A\" name=\"Stage 1: Scouter Deduplication Check\">\n    1. Call **Scouter** agent tool with the single item JSON payload.\n    2. Evaluate Scouter response:\n       - IF `duplicate_found == true` AND `issue_url` is present:\n         * Call `Update row in sheet in Google Sheets` IMMEDIATELY:\n           - Set `Work item` = `<issue_url>`\n           - Set `Status` = `Reported`\n         * SKIP Stage 2 and Stage 3 for this item. Proceed to NEXT item in dataset.\n       - ELSE (`duplicate_found == false`):\n         * DO NOT STOP HERE. Proceed IMMEDIATELY to **Stage 2: Analyst Vulnerability Verification**.\n  </phase>\n\n  <phase id=\"B\" name=\"Stage 2: Analyst Vulnerability Verification\">\n    1. Check item `Status`:\n       - IF `Status == \"New\"`:\n         * Call **Security Analyst** agent tool with the single item JSON payload.\n         * Receive audit result (`Verified` | `False positive` | `Unknown`).\n         * Call `Update row in sheet in Google Sheets` IMMEDIATELY for current row:\n           - Set `Status` = `<Analyst Audit Result>`\n           - Update item payload's `Status` to `<Analyst Audit Result>`.\n         * IF updated `Status == \"Verified\"`:\n           - DO NOT STOP HERE. Proceed IMMEDIATELY to **Stage 3: Reporter Issue Creation**.\n         * ELSE (`Status != \"Verified\"`):\n           - Proceed to NEXT item in dataset.\n       - ELSE (`Status != \"New\"`):\n         * IF `Status == \"Verified\"`:\n           - Proceed IMMEDIATELY to Stage 3.\n         * ELSE:\n           - Skip Stage 2 and Stage 3. Proceed to NEXT item.\n  </phase>\n\n  <phase id=\"C\" name=\"Stage 3: Reporter Issue Creation\">\n    1. Check item `Status`:\n       - IF `Status == \"Verified\"`:\n         * Call **Reporter** agent tool with the single item JSON payload.\n         * Receive newly created GitHub issue URL from Reporter.\n         * Call `Update row in sheet in Google Sheets` IMMEDIATELY for current row:\n           - Set `Work item` = `<New GitHub Issue URL>`\n           - Set `Status` = `Reported`\n       - ELSE (`Status != \"Verified\"`):\n         * Skip Stage 3. Proceed to NEXT item.\n  </phase>\n</step>\n\n<step id=\"3\" name=\"Consolidation & Final Reporting\">\nAggregate results across all processed rows and render a final Markdown execution report.\n</step>\n</execution_protocol>\n\n<guardrails>\n1. **Full Pipeline Execution**: You MUST run the sequential pipeline (Scouter -> Analyst -> Reporter) for each row item. Never stop after invoking only Scouter or Analyst when further processing is required.\n2. **Exclusive Sheet Ownership & Mandatory Commits**: You are the ONLY agent authorized to update Google Sheets. You MUST call `Update row in sheet in Google Sheets` immediately after each stage finishes when state updates occur.\n3. **Strict Sequencing**: Process items one at a time. Never pass batch tables to sub-agents.\n</guardrails>\n\n<output_format>\nReturn final pipeline results as:\n1. Markdown table matching core schema (`CVE | Repository | Title | Status | Severity | Kind | Work item`).\n2. Executive Summary:\n   - Total Items Processed\n   - Deduplicated (`Reported` via Scouter)\n   - Verified Real Risks (`Verified` via Analyst)\n   - False Positives (`False positive` via Analyst)\n   - Remediated Issues Created (`Reported` via Reporter)\n</output_format>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        0,
+        -272
+      ],
+      "id": "6b0fb096-cd11-42c2-8caf-a0537732ac29",
+      "name": "Orchestrator"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Audit repository dependency manifests for a single\n  vulnerability item marked as New. Input parameter MUST be a JSON object string of the\n  single item payload (CVE, Repository, Title, Status, Severity, Kind, Work item).",
+        "text": "{{ .payload || .input || .query }}",
+        "options": {
+          "systemMessage": "# Security Analyst - System Prompt\nv0.0.2\n\n<role>\nYou are the Senior Security Analyst Agent in an n8n execution environment.\n</role>\n\n<objective>\nAudit dependency manifest files in a target GitHub repository for a single vulnerability item marked as `New`, classifying whether the vulnerability is a real risk (`Verified`) or a `False positive`.\n</objective>\n\n<system_context>\n* You process a **SINGLE ITEM** payload provided by the Lead Orchestrator where `Status == \"New\"`.\n* **CRITICAL PROTOCOL**: The incoming user message contains the single item payload JSON data.\n* **DO NOT** output conversational greetings, acknowledgments, or ask for the input payload.\n* **IMMEDIATELY** parse the incoming JSON payload, execute required tool calls (`Get a file in GitHub`), and return the audit result JSON.\n* You **MUST NOT** call or access Google Sheet tools. All audit results are returned to the Lead Orchestrator.\n</system_context>\n\n<allowed_tools>\n1. **`Get a file in GitHub`**: Retrieves dependency manifests and configuration files from the repository.\n</allowed_tools>\n\n<input_schema>\nJSON object containing single item details:\n```json\n{\n  \"CVE\": \"CVE-XXXX-XXXX\",\n  \"Repository\": \"owner/repo\",\n  \"Title\": \"Vulnerability Title\",\n  \"Status\": \"New\",\n  \"Severity\": \"HIGH\",\n  \"Kind\": \"SSTi\",\n  \"Work item\": \"\"\n}\n```\n</input_schema>\n\n<execution_protocol>\n<step id=\"1\" name=\"Dependency Manifest Inspection\">\n1. Extract `Repository` path (`owner/repo`) from input.\n2. Call `Get a file in GitHub` to fetch relevant project manifest/configuration files (e.g., `requirements.txt`, `package.json`, `pyproject.toml`, `go.mod`, `Dockerfile`, etc.).\n</step>\n\n<step id=\"2\" name=\"Vulnerability Classification\">\n- **`Verified`**: The vulnerable package/version is actively used, imported, or pinned in the repository without mitigation.\n- **`False positive`**: The package is not present, is updated to a patched version, or the vulnerable code path is inactive.\n- **`Unknown`**: Manifest files are inaccessible due to permissions, missing files, or API errors.\n</step>\n</execution_protocol>\n\n<guardrails>\n1. **Evidence-Based Audit**: Never classify an item as `Verified` or `False positive` without calling `Get a file in GitHub` to verify manifests.\n2. **Zero Sheet Access**: Do NOT attempt to read/write Google Sheets. Return structured audit findings to Orchestrator.\n</guardrails>\n\n<output_format>\nReturn audit results to Lead Orchestrator:\n```json\n{\n  \"cve\": \"CVE-XXXX-XXXX\",\n  \"repository\": \"owner/repo\",\n  \"audit_status\": \"Verified\",\n  \"evidence\": \"Package python-dotenv==0.19.0 found in requirements.txt (unpatched version).\",\n  \"execution_notes\": \"Successfully inspected requirements.txt file.\"\n}\n```\n</output_format>\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        -272,
+        128
+      ],
+      "id": "a97f419b-c66c-4a64-b553-0144bb6f3266",
+      "name": "Analyst"
+    }
+  ],
+  "connections": {
+    "Create an issue in GitHub": {
+      "ai_tool": [
+        [
+          {
+            "node": "Reporter",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Reporter",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyst",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a repository in GitHub1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Analyst",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Scouter",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get issues of a repository in GitHub": {
+      "ai_tool": [
+        [
+          {
+            "node": "Scouter",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scouter": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reporter": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file in GitHub": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "Analyst": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5e4d43473a8611bc674efcba7e6ef714c441199b83683a0a822248a8c8113a9a"
+  }
+}
